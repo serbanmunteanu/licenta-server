@@ -1,0 +1,13 @@
+auth:
+  jwt: 
+    secret: 'fysw6gf3k@'
+    expiration: '8h'
+
+db:
+  mysql: 
+    dialect: 'mysql'
+    username: 'root'
+    password: 'password'
+    database: "licenta"
+    host: "localhost"
+    port: 3307

@@ -1,0 +1,25 @@
+version: "3.7"
+
+services: 
+  db:
+    image: mysql:5.7
+    volumes: 
+      - ./data/mysql:/data
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: licenta
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: localhost
+    ports: 
+      - 3307:3306
+    expose:
+      - 3307
+
+  redis: 
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes: 
+      - ./data/redis:/data
