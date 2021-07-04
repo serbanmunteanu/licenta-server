@@ -6,6 +6,6 @@ export class UserAttributes {
   password: string;
   isActive?: boolean;
   canReply?: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

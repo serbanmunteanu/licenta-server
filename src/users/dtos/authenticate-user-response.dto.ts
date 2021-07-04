@@ -1,7 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import { User } from '../models/user.model';
 
-@Exclude()
 export class AuthenticateUserResponseDto {
   @Expose()
   name: string;
@@ -15,11 +14,17 @@ export class AuthenticateUserResponseDto {
   @Expose()
   linkingCode: string;
 
+  @Exclude()
+  password: string;
+
   @Expose()
   token: string;
 
   @Expose()
   createdAt: Date;
+
+  @Exclude()
+  updatedAt: Date;
 
   constructor(data: Partial<User> & { token: string }) {
     Object.assign(this, data);

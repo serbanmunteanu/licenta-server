@@ -5,10 +5,13 @@ import {
   DefaultScope,
   Length,
   Model,
+  Scopes,
   Table,
   Unique,
 } from 'sequelize-typescript';
 import { UserAttributes } from './user.attributes';
+
+export const USER_SCOPE_AUTH = 'auth';
 
 @Table
 @DefaultScope(() => ({
@@ -18,9 +21,25 @@ import { UserAttributes } from './user.attributes';
     'email',
     'phone',
     'canReply',
+    'isActive',
     'createdAt',
     'updatedAt',
   ],
+}))
+@Scopes(() => ({
+  [USER_SCOPE_AUTH]: {
+    attributes: [
+      'id',
+      'name',
+      'email',
+      'password',
+      'phone',
+      'canReply',
+      'isActive',
+      'createdAt',
+      'updatedAt',
+    ],
+  },
 }))
 export class User extends Model<UserAttributes> {
   @AllowNull(false)

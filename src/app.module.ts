@@ -5,6 +5,7 @@ import { SequelizeModule, SequelizeModuleOptions } from '@nestjs/sequelize';
 import { RelayModule } from './relay/relay.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/models/user.model';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { User } from './users/models/user.model';
     } as SequelizeModuleOptions),
     RelayModule,
     UsersModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
