@@ -6,6 +6,7 @@ import { RelayModule } from './relay/relay.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/models/user.model';
 import { CategoryModule } from './category/category.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CategoryModule } from './category/category.module';
     RelayModule,
     UsersModule,
     CategoryModule,
+    PostsModule,
   ],
   controllers: [],
   providers: [],

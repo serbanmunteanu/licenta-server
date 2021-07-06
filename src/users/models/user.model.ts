@@ -3,12 +3,14 @@ import {
   Column,
   Default,
   DefaultScope,
+  HasMany,
   Length,
   Model,
   Scopes,
   Table,
   Unique,
 } from 'sequelize-typescript';
+import { Post } from 'src/posts/models/post.model';
 import { UserAttributes } from './user.attributes';
 
 export const USER_SCOPE_AUTH = 'auth';

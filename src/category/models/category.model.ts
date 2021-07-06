@@ -3,10 +3,12 @@ import {
   Column,
   Default,
   DefaultScope,
+  HasMany,
   Length,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Post } from 'src/posts/models/post.model';
 import { CategoryAttributes } from './category.attributes';
 
 @Table
@@ -40,4 +42,7 @@ export class Category extends Model<CategoryAttributes> {
   @Default(false)
   @Column
   isActive?: boolean;
+
+  @HasMany(() => Post)
+  posts: Post[];
 }
