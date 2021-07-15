@@ -1,32 +1,23 @@
-<html>
-  <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+<!doctype html>
+<html class="no-js" lang="">
 
-    <script>
-      const socket = io('http://localhost:3000');
-      // client-side
-        socket.on("connect", () => {
-        console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-        });
-      socket.on('connect', function() {
-        console.log('Connected');
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-        socket.emit('events', { test: 'test' });
-        socket.emit('identity', 0, response =>
-          console.log('Identity:', response),
-        );
-      });
-      socket.on('events', function(data) {
-        console.log('event', data);
-      });
-      socket.on('exception', function(data) {
-        console.log('event', data);
-      });
-      socket.on('disconnect', function() {
-        console.log('Disconnected');
-      });
-    </script>
-  </head>
+<body>
+  <div>
+    <ul id="messages"></ul>
+  </div>
 
-  <body></body>
+  <div>
+    <input id="message" type="text" />
+    <button onclick="handleSubmitNewMessage()">Submit</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script src="./chat-socket.js"></script>
+</body>
+
 </html>

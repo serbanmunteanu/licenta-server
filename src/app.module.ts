@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/models/user.model';
 import { CategoryModule } from './category/category.module';
 import { PostsModule } from './posts/posts.module';
+import { Post } from './posts/models/post.model';
+import { Category } from './category/models/category.model';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { PostsModule } from './posts/posts.module';
     }),
     SequelizeModule.forRoot({
       ...configAggregator().db.mysql,
-      models: [User],
+      models: [User, Post, Category],
       autoLoadModels: true,
       synchronize: true,
     } as SequelizeModuleOptions),

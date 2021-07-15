@@ -11,7 +11,17 @@ export class PostsService {
   async createPost(createPostDto: CreatePostDto): Promise<PostResponseDto> {
     const post = await this.postModel.create(createPostDto);
     return new PostResponseDto({
-      ...post.get(),
+      ...post.get({ plain: true }),
     });
+  }
+
+  async getPosts(): Promise<PostResponseDto[]> {
+    const posts = await this.postModel.findAll();
+    return posts.map(
+      (post) =>
+        new PostResponseDto({
+          ...post.get({ plain: true }),
+        }),
+    );
   }
 }

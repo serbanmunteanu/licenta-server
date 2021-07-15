@@ -1,6 +1,7 @@
 import { Expose } from 'class-transformer';
 import { Category } from 'src/category/models/category.model';
 import { User } from 'src/users/models/user.model';
+import { Post } from '../models/post.model';
 
 export class PostResponseDto {
   @Expose()
@@ -27,7 +28,7 @@ export class PostResponseDto {
   @Expose()
   updatedAt: Date;
 
-  constructor(data: Partial<Category>) {
+  constructor(data: Partial<Post>) {
     Object.assign(this, data);
   }
 }

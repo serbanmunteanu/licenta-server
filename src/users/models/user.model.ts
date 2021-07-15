@@ -70,4 +70,7 @@ export class User extends Model<UserAttributes> {
   @Default(true)
   @Column
   isActive?: boolean;
+
+  @HasMany(() => Post)
+  posts: Post[];
 }
