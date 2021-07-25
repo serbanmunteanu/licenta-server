@@ -1,13 +1,6 @@
 import { Post } from 'src/posts/models/post.entity';
 import { User } from 'src/users/models/user.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Comment {
@@ -29,7 +22,13 @@ export class Comment {
   @Column()
   userId: number;
 
-  @OneToOne(() => User)
+  @Column()
+  createdAt: number;
+
+  @Column()
+  updatedAt: number;
+
+  @ManyToOne(() => User, (user) => user.comments)
   user: User;
 
   @ManyToOne(() => Post, (post) => post.comments)

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/models/user.entity';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { GetPostDto } from './dtos/get-post.dto';
 import { PostResponseDto } from './dtos/post-response.dto';
 import { Post } from './models/post.entity';
 
@@ -13,36 +14,24 @@ export class PostsService {
     createPostDto: CreatePostDto,
     user: User,
   ): Promise<PostResponseDto> {
+    const date = new Date();
     const newPost = await this.postRepository.create({
       text: createPostDto.text,
       title: createPostDto.title,
       categoryId: createPostDto.categoryId,
       userId: user.id,
+      createdAt: date,
+      updatedAt: date,
     });
     const post = await this.postRepository.save(newPost);
-    return new PostResponseDto({});
+    return new PostResponseDto({ ...post });
   }
 
-  // async getPosts(): Promise<PostResponseDto[]> {
-  //   const posts = await this.postModel.findAll();
-  //   return posts.map(
-  //     (post) =>
-  //       new PostResponseDto({
-  //         ...post.get({ plain: true }),
-  //       }),
-  //   );
-  // }
-
-  public async getPost(
-    postId: number,
-    relations: string[],
-  ): Promise<PostResponseDto> {
+  public async getPost(postId: number): Promise<GetPostDto> {
     const post = await this.postRepository.findOne({
-      relations,
+      relations: ['tags', 'comments', 'user', 'comments.user'],
       where: { id: postId },
     });
-    return new PostResponseDto({
-      ...post,
-    });
+    return new GetPostDto({ ...post });
   }
 }

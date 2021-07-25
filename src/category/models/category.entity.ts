@@ -18,6 +18,12 @@ export class Category {
   @Column()
   isActive: boolean;
 
+  @Column()
+  createdAt: Date;
+
+  @Column()
+  updatedAt: Date;
+
   @OneToMany(() => Post, (post) => post.category)
   posts: Post[];
 }

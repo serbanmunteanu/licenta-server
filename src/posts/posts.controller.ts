@@ -4,6 +4,7 @@ import { CommentsService } from 'src/comments/models/comments.service';
 import { User as UserDecorator } from 'src/common/decorators/user.decorator';
 import { User } from 'src/users/models/user.entity';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { GetPostDto } from './dtos/get-post.dto';
 import { PostResponseDto } from './dtos/post-response.dto';
 import { PostsService } from './posts.service';
 
@@ -14,17 +15,17 @@ export class PostsController {
     private readonly commentsService: CommentsService,
   ) {}
 
-  // @Get()
-  // async getPosts(): Promise<PostResponseDto[]> {
-  //   return await this.postsService.getPosts();
-  // }
-
   @Post()
   async createPost(
     @UserDecorator() user: User,
     @Body() createPostDto: CreatePostDto,
   ): Promise<PostResponseDto> {
     return await this.postsService.createPost(createPostDto, user);
+  }
+
+  @Get('/:postId')
+  public async getPost(@Param('postId') postId: number): Promise<GetPostDto> {
+    return await this.postsService.getPost(postId);
   }
 
   // @Post(':postId/comments')

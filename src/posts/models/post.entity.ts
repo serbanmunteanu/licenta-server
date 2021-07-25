@@ -4,10 +4,12 @@ import { Comment } from 'src/comments/models/comment.entity';
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Tag } from 'src/tags/models/tag.entity';
 
 @Entity()
 export class Post {
@@ -24,10 +26,22 @@ export class Post {
   isActive: boolean;
 
   @Column()
-  userId: number;
+  createdAt: Date;
+
+  @Column()
+  updatedAt: Date;
+
+  @Column()
+  userId: string;
 
   @Column()
   categoryId: number;
+
+  @Column({ default: 0 })
+  votes: number;
+
+  @Column({ default: 0 })
+  views: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
@@ -37,4 +51,7 @@ export class Post {
 
   @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];
+
+  @ManyToMany(() => Tag, (tag) => tag.posts)
+  tags: Tag[];
 }

@@ -18,10 +18,22 @@ export class PostResponseDto {
   active: boolean;
 
   @Expose()
-  user: User;
+  userName: string;
 
   @Expose()
+  categoryName: string;
+
+  @Exclude()
+  user: User;
+
+  @Exclude()
   category: Category;
+
+  @Expose()
+  categoryId: number;
+
+  @Expose()
+  userId: string;
 
   @Expose()
   comments: Comment[];
@@ -34,5 +46,11 @@ export class PostResponseDto {
 
   constructor(data: Partial<Post>) {
     Object.assign(this, data);
+    if (data.user) {
+      this.userName = data.user.name;
+    }
+    if (data.category) {
+      this.categoryName = data.category.name;
+    }
   }
 }

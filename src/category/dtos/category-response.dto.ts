@@ -15,10 +15,10 @@ export class CategoryResponseDto {
   image: string;
 
   @Expose()
-  createdAt: Date;
+  createdAt: string;
 
   @Expose()
-  updatedAt: Date;
+  updatedAt: string;
 
   constructor(data: Partial<Category>) {
     Object.assign(this, data);

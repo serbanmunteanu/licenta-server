@@ -25,7 +25,9 @@ export class UsersService {
     return this.generateAuthenticationResponse(createdUser);
   }
 
-  async authenticateUser(authUser: User): Promise<AuthenticateUserResponseDto> {
+  public async authenticateUser(
+    authUser: User,
+  ): Promise<AuthenticateUserResponseDto> {
     return this.generateAuthenticationResponse(authUser);
   }
 

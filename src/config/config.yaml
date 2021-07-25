@@ -11,6 +11,6 @@ db:
       username: 'root'
       password: 'password'
       database: 'licenta'
-      entities: ['dist/**/*.model{.ts,.js}'']
+      entities: ['dist/**/*.entity{.ts,.js}']
       synchronize: true
  
