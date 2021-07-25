@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthUserDto } from './dtos/auth-user.dto';
 import { AuthenticateUserResponseDto } from './dtos/authenticate-user-response.dto';
 import { RegisterUserDto } from './dtos/register-user.dto';
-import { User } from './models/user.model';
+import { User } from './models/user.entity';
 import { UserAuthenticationPipe } from './pipes/user-authentication.pipe';
 import { UserExistPipe } from './pipes/user-exist.pipe';
 import { UsersService } from './users.service';

@@ -1,25 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryResponseDto } from './dtos/category-response.dto';
 import { CreateCategoryDto } from './dtos/create-category.dto';
-import { Category } from './models/category.model';
+import { Category } from './models/category.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectModel(Category) private readonly categoryModel: typeof Category,
+    @InjectRepository(Category) private readonly categoryRepository,
   ) {}
 
-  async createCategory(
+  public async createCategory(
     createCategoryDto: CreateCategoryDto,
   ): Promise<CategoryResponseDto> {
-    const category = await this.categoryModel.create(createCategoryDto);
-    return new CategoryResponseDto({
-      ...category.get(),
-    });
+    let category = await this.categoryRepository.create(createCategoryDto);
+    category = await this.categoryRepository.save(category);
+    return new CategoryResponseDto({ ...category });
   }
 
-  async getCategoryById(id: number): Promise<Category> {
-    return await this.categoryModel.findOne({ where: { id } });
+  public async getCategoryById(id: number): Promise<Category | null> {
+    return await this.categoryRepository.findOne({ where: { id } });
+  }
+
+  public async getCategoryByName(name: string): Promise<Category | null> {
+    return await this.categoryRepository.findOne({ where: { name } });
+  }
+
+  public async getCategories(): Promise<any> {
+    return await this.categoryRepository.find({
+      relations: ['posts'],
+    });
   }
 }

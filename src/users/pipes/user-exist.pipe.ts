@@ -4,17 +4,14 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { User, USER_SCOPE_AUTH } from '../models/user.model';
+import { UsersService } from '../users.service';
 
 @Injectable()
 export class UserExistPipe implements PipeTransform {
-  constructor(@InjectModel(User) private readonly userModel: typeof User) {}
+  constructor(protected usersService: UsersService) {}
 
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-    const user = await this.userModel
-      .scope(USER_SCOPE_AUTH)
-      .findOne({ where: { email: value.email } });
+    const user = await this.usersService.getUserByEmail(value.email);
     if (user) {
       throw new ConflictException('This email address is already taken.');
     }

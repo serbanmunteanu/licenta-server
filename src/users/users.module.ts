@@ -1,15 +1,13 @@
 import { Logger, Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from 'src/jwt/jwt.module';
-import { Post } from 'src/posts/models/post.model';
-import { User } from './models/user.model';
+import { User } from './models/user.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { PostsModule } from '../posts/posts.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User]), JwtModule, PostsModule],
-  exports: [],
+  imports: [TypeOrmModule.forFeature([User]), JwtModule],
+  exports: [UsersService],
   providers: [UsersService, Logger],
   controllers: [UsersController],
 })

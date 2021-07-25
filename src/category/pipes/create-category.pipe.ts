@@ -4,19 +4,14 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Category } from '../models/category.model';
+import { CategoryService } from '../category.service';
 
 @Injectable()
 export class CreateCategoryPipe implements PipeTransform {
-  constructor(
-    @InjectModel(Category) private readonly categoryModel: typeof Category,
-  ) {}
+  constructor(protected categoryService: CategoryService) {}
 
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-    const category = await this.categoryModel.findOne({
-      where: { name: value.name },
-    });
+    const category = await this.categoryService.getCategoryByName(value.name);
     if (category) {
       throw new ConflictException('Category already exists.');
     }

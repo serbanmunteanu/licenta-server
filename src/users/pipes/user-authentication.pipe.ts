@@ -5,21 +5,19 @@ import {
   PipeTransform,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { User, USER_SCOPE_AUTH } from '../models/user.model';
+import { User } from '../models/user.entity';
 import * as argon2 from 'argon2';
 import { AuthUserDto } from '../dtos/auth-user.dto';
+import { UsersService } from '../users.service';
 
 @Injectable()
 export class UserAuthenticationPipe
   implements PipeTransform<AuthUserDto, Promise<User>>
 {
-  constructor(@InjectModel(User) private readonly userModel: typeof User) {}
+  constructor(protected usersService: UsersService) {}
 
   async transform(value: any, metadata: ArgumentMetadata): Promise<User> {
-    const user = await this.userModel
-      .scope(USER_SCOPE_AUTH)
-      .findOne({ where: { email: value.email } });
+    const user = await this.usersService.getUserByEmail(value.email);
 
     if (!user) {
       throw new UnauthorizedException('Account does not exist.');

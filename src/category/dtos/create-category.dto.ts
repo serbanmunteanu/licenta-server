@@ -1,5 +1,5 @@
 import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
-import { Category } from '../models/category.model';
+import { Category } from '../models/category.entity';
 
 export class CreateCategoryDto {
   @IsString()

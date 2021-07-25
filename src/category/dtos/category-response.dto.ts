@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Category } from '../models/category.model';
+import { Category } from '../models/category.entity';
 
 export class CategoryResponseDto {
   @Expose()

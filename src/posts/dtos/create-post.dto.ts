@@ -1,5 +1,5 @@
 import { IsBoolean, IsNumber, IsString, Length } from 'class-validator';
-import { Category } from 'src/category/models/category.model';
+import { Post } from '../models/post.entity';
 
 export class CreatePostDto {
   @IsString()
@@ -14,12 +14,9 @@ export class CreatePostDto {
   active: boolean;
 
   @IsNumber()
-  userId: number;
-
-  @IsNumber()
   categoryId: number;
 
-  constructor(data: Partial<Category>) {
+  constructor(data: Partial<Post>) {
     Object.assign(this, data);
   }
 }

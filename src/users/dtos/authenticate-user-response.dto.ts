@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { User } from '../models/user.model';
+import { User } from '../models/user.entity';
 
 export class AuthenticateUserResponseDto {
   @Expose()
