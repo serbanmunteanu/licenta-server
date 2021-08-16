@@ -30,7 +30,7 @@ export class CategoryController {
     return await this.categoryService.getCategories();
   }
 
-  @Get('category/:categoryId/posts')
+  @Get('categories/:categoryId/posts')
   public async getCategory(
     @Param('categoryId', ParseIntPipe, CategoryExistsPipe) categoryId: number,
   ): Promise<GetCategoryDto> {

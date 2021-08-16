@@ -7,6 +7,7 @@ import { CategoryModule } from './category/category.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/commets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConversationsModule } from './conversations/conversations.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CategoryModule,
     PostsModule,
     // CommentsModule,
+    ConversationsModule,
   ],
   controllers: [],
   providers: [],

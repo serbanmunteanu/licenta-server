@@ -1,12 +1,19 @@
 import {
   MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { Socket, Server } from 'socket.io';
 
-@WebSocketGateway()
-export class RelayGateway {
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+  namespace: 'relay',
+})
+export class RelayGateway implements OnGatewayConnection {
   @WebSocketServer()
   server;
 
@@ -14,5 +21,9 @@ export class RelayGateway {
   handleMessage(@MessageBody() message: string): void {
     console.log(message);
     this.server.emit('message', message);
+  }
+
+  handleConnection(client: Socket, ...args: any[]) {
+    console.log(client.handshake.query.userId);
   }
 }

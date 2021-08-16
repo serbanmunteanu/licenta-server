@@ -32,7 +32,7 @@ export class Post {
   updatedAt: Date;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @Column()
   categoryId: number;

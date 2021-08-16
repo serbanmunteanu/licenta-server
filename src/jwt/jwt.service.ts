@@ -6,7 +6,7 @@ import * as jwt from 'jsonwebtoken';
 export class JwtService {
   constructor(private readonly configService: ConfigService) {}
 
-  generateAuthToken(userId: string): string {
+  generateAuthToken(userId: number): string {
     return jwt.sign({ userId }, this.configService.get('auth.jwt.secret'), {
       expiresIn: this.configService.get('auth.jwt.expiration'),
     });

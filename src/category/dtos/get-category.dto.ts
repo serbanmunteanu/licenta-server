@@ -20,6 +20,7 @@ export class GetCategoryDto {
     if (data.posts.length) {
       const posts = data.posts.map((post) => {
         return new GetCategoryPostInfoDto({
+          id: post.id,
           title: post.title,
           userName: post.user?.name,
           createdAt: post.createdAt,

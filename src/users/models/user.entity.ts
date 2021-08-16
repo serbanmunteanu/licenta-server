@@ -10,8 +10,8 @@ import { Comment } from '../../comments/models/comment.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;
@@ -19,7 +19,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ default: null })
   phone?: string;
 
   @Column()

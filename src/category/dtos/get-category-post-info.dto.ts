@@ -1,6 +1,7 @@
 import { Comment } from '../../comments/models/comment.entity';
 
 export class GetCategoryPostInfoDto {
+  id: string;
   title: string;
   createdAt: string;
   userName: string;

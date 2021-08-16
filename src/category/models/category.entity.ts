@@ -16,6 +16,9 @@ export class Category {
   image: string;
 
   @Column()
+  color: string;
+
+  @Column()
   isActive: boolean;
 
   @Column()

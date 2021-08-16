@@ -13,6 +13,9 @@ export class CreateCategoryDto {
   @IsString()
   image: string;
 
+  @IsString()
+  color: string;
+
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;

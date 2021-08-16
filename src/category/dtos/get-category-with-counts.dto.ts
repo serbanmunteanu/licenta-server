@@ -7,6 +7,7 @@ export class GetCategoryWithCounts {
   name: string;
   shortDescription: string;
   image: string;
+  color: string;
   isActive: boolean;
   @Exclude()
   posts: Post[];
