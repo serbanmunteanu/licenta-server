@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { User } from 'src/users/models/user.entity';
 import { ConversationService } from './conversations.service';
 import { User as UserDecorator } from '../common/decorators/user.decorator';
 import { ConversationDto } from './dtos/conversation.dto';
+import { ConversationMessageEntity } from './models/conversation-message.entity';
+import { ConversationMessageDto } from './dtos/conversation-message.dto';
 
 @Controller('/conversations')
 export default class ConversationsController {
@@ -28,5 +37,25 @@ export default class ConversationsController {
     @Body() content: any,
   ): Promise<any> {
     return await this.conversationService.createConversation(user, content);
+  }
+
+  @Get(':conversationId/messages')
+  public async getConversationMessages(
+    @Param('conversationId', ParseIntPipe) conversationId,
+  ): Promise<ConversationMessageDto[]> {
+    const conversationMessages =
+      await this.conversationService.getConversationMessages(conversationId);
+
+    return conversationMessages.map(
+      (conversationMessage) => new ConversationMessageDto(conversationMessage),
+    );
+  }
+
+  @Post(':conversationId')
+  public async insertMessage(
+    @Param('conversationId', ParseIntPipe) conversationId: number,
+    @Body() any,
+  ): Promise<ConversationMessageEntity> {
+    return await this.conversationService.insertMessage(conversationId, any);
   }
 }
