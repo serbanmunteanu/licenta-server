@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   SubscribeMessage,
@@ -6,6 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
+import { ConversationService } from 'src/conversations/conversations.service';
 
 @WebSocketGateway({
   cors: {
@@ -13,17 +15,23 @@ import { Socket, Server } from 'socket.io';
   },
   namespace: 'relay',
 })
-export class RelayGateway implements OnGatewayConnection {
+export class RelayGateway {
   @WebSocketServer()
-  server;
+  server: Server;
 
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() message: string): void {
-    console.log(message);
-    this.server.emit('message', message);
-  }
+  constructor(protected conversationService: ConversationService) {}
 
-  handleConnection(client: Socket, ...args: any[]) {
-    console.log(client.handshake.query.userId);
+  @SubscribeMessage('send-message')
+  async handleMessage(
+    @MessageBody() message: any,
+    @ConnectedSocket() client: Socket,
+  ): Promise<void> {
+    const conversation = await this.conversationService.getConversation(
+      message.conversationId,
+    );
+
+    client.broadcast
+      .to(conversation.secondUser.id)
+      .emit('receive-message', { message });
   }
 }

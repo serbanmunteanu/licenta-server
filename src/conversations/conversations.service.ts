@@ -43,6 +43,7 @@ export class ConversationService {
     conversationId: number,
   ): Promise<ConversationEntity> {
     return await this.conversationRepository.findOne({
+      relations: ['firstUser', 'secondUser'],
       where: { id: conversationId },
     });
   }
