@@ -7,7 +7,7 @@ export class ConversationDto {
 
   constructor(data: Partial<ConversationEntity>) {
     Object.assign(this, {
-      id: data.id,
+      conversationId: data.id,
       secondUserName: data.secondUser.name,
       updatedAt: data.updatedAt,
     });

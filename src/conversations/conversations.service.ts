@@ -32,7 +32,7 @@ export class ConversationService {
         },
       ],
       order: {
-        updatedAt: 'DESC',
+        updatedAt: 'ASC',
       },
       skip: offset,
       take: limit,
