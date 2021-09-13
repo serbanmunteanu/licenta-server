@@ -9,9 +9,7 @@ export class ConversationMessageDto {
 
   constructor(data: Partial<ConversationMessageEntity>) {
     Object.assign(this, {
-      id: data.id,
       content: data.content,
-      userName: data.user.name,
       userId: data.user.id,
       createdAt: data.createdAt,
     });

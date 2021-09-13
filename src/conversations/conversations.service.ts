@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import Message from 'src/relay/interfaces/message.interface';
 import { User } from 'src/users/models/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm/repository/Repository';
@@ -32,7 +33,7 @@ export class ConversationService {
         },
       ],
       order: {
-        updatedAt: 'ASC',
+        updatedAt: 'DESC',
       },
       skip: offset,
       take: limit,
@@ -72,15 +73,21 @@ export class ConversationService {
   }
 
   public async insertMessage(
-    conversationId: number,
-    content: any,
+    message: Message,
   ): Promise<ConversationMessageEntity> {
     const conversationMessage = this.conversationMessageRepository.create();
     conversationMessage.conversation = await this.getConversation(
-      conversationId,
+      message.conversationId,
     );
-    conversationMessage.user = await this.usersService.getUserById(content.id);
-    conversationMessage.content = content.data;
+    conversationMessage.user = await this.usersService.getUserById(
+      message.userId,
+    );
+    conversationMessage.content = message.content;
+    const conversation = await this.conversationRepository.findOne({
+      id: message.conversationId,
+    });
+    conversation.updatedAt = new Date();
+    await this.conversationRepository.save(conversation);
     return await this.conversationMessageRepository.save(conversationMessage);
   }
 }

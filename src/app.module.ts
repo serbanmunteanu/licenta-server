@@ -8,6 +8,7 @@ import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/commets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConversationsModule } from './conversations/conversations.module';
+import { SentimentModule } from './sentiment/sentiment.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConversationsModule } from './conversations/conversations.module';
     PostsModule,
     // CommentsModule,
     ConversationsModule,
+    SentimentModule,
   ],
   controllers: [],
   providers: [],

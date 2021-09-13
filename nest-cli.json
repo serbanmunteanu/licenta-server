@@ -6,6 +6,10 @@
       {
         "include": "../src/config/*.yaml",
         "outDir": "./dist"
+      },
+      {
+        "include": "../src/sentiment/languages/**/*.json",
+        "outDir": "./dist"
       }
     ]
   }

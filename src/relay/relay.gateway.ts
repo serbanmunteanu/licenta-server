@@ -27,14 +27,22 @@ export class RelayGateway implements OnGatewayInit {
     server.emit('receive-message', { merge: 'da' });
   }
 
-  @SubscribeMessage('send-message')
-  async handleMessage(
-    @MessageBody('message') message: Message,
+  @SubscribeMessage('join-room')
+  async joinRoom(
+    @MessageBody('conversationId') conversationId: number,
     @ConnectedSocket() client: Socket,
-  ): Promise<void> {
-    const conversation = await this.conversationService.getConversation(
-      message.conversationId,
+  ) {
+    client.join(conversationId, (error) => {
+      console.log(error);
+    });
+  }
+
+  @SubscribeMessage('send-message')
+  async handleMessage(@MessageBody('message') message: Message): Promise<void> {
+    const conversationMessage = await this.conversationService.insertMessage(
+      message,
     );
-    this.server.emit('receive-message', { message });
+    console.log(conversationMessage);
+    this.server.to(message.conversationId).emit('receive-message', { message });
   }
 }

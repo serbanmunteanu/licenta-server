@@ -50,12 +50,4 @@ export default class ConversationsController {
       (conversationMessage) => new ConversationMessageDto(conversationMessage),
     );
   }
-
-  @Post(':conversationId')
-  public async insertMessage(
-    @Param('conversationId', ParseIntPipe) conversationId: number,
-    @Body() any,
-  ): Promise<ConversationMessageEntity> {
-    return await this.conversationService.insertMessage(conversationId, any);
-  }
 }
