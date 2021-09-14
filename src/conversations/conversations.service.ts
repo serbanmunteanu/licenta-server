@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Message from 'src/relay/interfaces/message.interface';
+import { SentimentService } from 'src/sentiment/sentiment.service';
 import { User } from 'src/users/models/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm/repository/Repository';
@@ -15,6 +16,7 @@ export class ConversationService {
     @InjectRepository(ConversationMessageEntity)
     protected conversationMessageRepository: Repository<ConversationMessageEntity>,
     protected usersService: UsersService,
+    protected sentimentService: SentimentService,
   ) {}
 
   public async getConversations(
@@ -76,6 +78,10 @@ export class ConversationService {
     message: Message,
   ): Promise<ConversationMessageEntity> {
     const conversationMessage = this.conversationMessageRepository.create();
+    const analyzedMessage = this.sentimentService.analyze(
+      message.content,
+      this.sentimentService.getSelectedLanguage(),
+    );
     conversationMessage.conversation = await this.getConversation(
       message.conversationId,
     );
@@ -83,9 +89,11 @@ export class ConversationService {
       message.userId,
     );
     conversationMessage.content = message.content;
+    conversationMessage.sentimentScore = analyzedMessage.score || 0;
     const conversation = await this.conversationRepository.findOne({
       id: message.conversationId,
     });
+    conversationMessage.createdAt = new Date();
     conversation.updatedAt = new Date();
     await this.conversationRepository.save(conversation);
     return await this.conversationMessageRepository.save(conversationMessage);

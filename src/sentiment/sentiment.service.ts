@@ -1,35 +1,68 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { promises as fs } from 'fs';
 import Sentiment from 'sentiment';
 import { join } from 'path';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SentimentService {
-  constructor(protected sentiment: Sentiment) {}
+  protected selectedLanguage: string;
+
+  constructor(protected sentiment: Sentiment, protected config: ConfigService) {
+    this.selectedLanguage = this.config.get('sentiment.languages.selected');
+  }
+
+  public analyze(
+    message: string,
+    languageCode: string,
+  ): Sentiment.AnalysisResult {
+    return this.sentiment.analyze(message, { language: languageCode });
+  }
+
+  public async init(): Promise<void> {
+    const supportedLanguages: string[] = this.config.get(
+      'sentiment.languages.supported',
+    );
+    for (const supportedLanguage of supportedLanguages) {
+      await this.registerLanguage(supportedLanguage);
+    }
+  }
+
+  public getSelectedLanguage(): string {
+    return this.selectedLanguage;
+  }
 
   protected async getLanguageLables(
     languageCode: string,
   ): Promise<Record<string, number>> {
-    return JSON.parse(
-      await fs.readFile(
-        join(__dirname, `./languages/${languageCode}/labels.json`),
-        'utf-8',
-      ),
-    );
+    try {
+      return JSON.parse(
+        await fs.readFile(
+          join(__dirname, `./languages/${languageCode}/labels.json`),
+          'utf-8',
+        ),
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   protected async getLanguageNegators(
     languageCode: string,
   ): Promise<Record<string, number>> {
-    return JSON.parse(
-      await fs.readFile(
-        join(__dirname, `./languages/${languageCode}/negators.json`),
-        'utf-8',
-      ),
-    );
+    try {
+      return JSON.parse(
+        await fs.readFile(
+          join(__dirname, `./languages/${languageCode}/negators.json`),
+          'utf-8',
+        ),
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  public async registerLanguage(languageCode: string): Promise<void> {
+  protected async registerLanguage(languageCode: string): Promise<void> {
     const negators = await this.getLanguageNegators(languageCode);
     const language: Sentiment.LanguageModule = {
       labels: await this.getLanguageLables(languageCode),
@@ -46,12 +79,5 @@ export class SentimentService {
       },
     };
     this.sentiment.registerLanguage(languageCode, language);
-  }
-
-  public analyze(
-    message: string,
-    languageCode: string,
-  ): Sentiment.AnalysisResult {
-    return this.sentiment.analyze(message, { language: languageCode });
   }
 }

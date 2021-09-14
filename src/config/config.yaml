@@ -5,8 +5,9 @@ auth:
 
 sentiment: 
   languages: 
-    supported: ['en', 'ro']
-    selected: ['ro']
+    default: ['en']
+    supported: ['ro']
+    selected: 'ro'
 
 db:
   mysql: 

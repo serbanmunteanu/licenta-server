@@ -1,7 +1,6 @@
 import {
   ConnectedSocket,
   MessageBody,
-  OnGatewayConnection,
   OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
@@ -42,7 +41,12 @@ export class RelayGateway implements OnGatewayInit {
     const conversationMessage = await this.conversationService.insertMessage(
       message,
     );
-    console.log(conversationMessage);
-    this.server.to(message.conversationId).emit('receive-message', { message });
+    this.server.to(message.conversationId).emit('receive-message', {
+      conversationId: conversationMessage.id,
+      content: conversationMessage.content,
+      userId: conversationMessage.user.id,
+      sentimentScore: conversationMessage.sentimentScore,
+      createdAt: conversationMessage.createdAt,
+    });
   }
 }

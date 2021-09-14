@@ -12,6 +12,7 @@ export class ConversationMessageDto {
       content: data.content,
       userId: data.user.id,
       createdAt: data.createdAt,
+      sentimentScore: data.sentimentScore,
     });
   }
 }

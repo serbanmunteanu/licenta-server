@@ -18,6 +18,9 @@ export class ConversationMessageEntity {
   @Column()
   content: string;
 
+  @Column()
+  sentimentScore: number;
+
   @ManyToOne(() => ConversationEntity)
   @JoinColumn({ name: 'conversationId' })
   conversation: ConversationEntity;
@@ -31,11 +34,4 @@ export class ConversationMessageEntity {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
-
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-  })
-  updatedAt: Date;
 }

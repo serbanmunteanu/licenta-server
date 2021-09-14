@@ -11,10 +11,11 @@ const Sentiment = require('sentiment');
       provide: SentimentService,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const sentimentService = new SentimentService(new Sentiment());
-        await sentimentService.registerLanguage(
-          configService.get('sentiment.languages.selected'),
+        const sentimentService = new SentimentService(
+          new Sentiment(),
+          configService,
         );
+        await sentimentService.init();
         return sentimentService;
       },
     },

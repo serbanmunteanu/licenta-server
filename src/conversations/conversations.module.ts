@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from 'src/jwt/jwt.module';
+import { SentimentModule } from 'src/sentiment/sentiment.module';
 import { AuthenticationMiddleware } from 'src/users/middleware/authentication.middleware';
 import { UsersModule } from 'src/users/users.module';
 import ConversationsController from './conversations.controller';
@@ -20,6 +21,7 @@ import { ConversationEntity } from './models/conversation.entity';
     TypeOrmModule.forFeature([ConversationMessageEntity, ConversationEntity]),
     JwtModule,
     UsersModule,
+    SentimentModule,
   ],
   providers: [ConversationService],
 })
