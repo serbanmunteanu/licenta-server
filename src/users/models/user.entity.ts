@@ -1,11 +1,5 @@
 import { Post } from 'src/posts/models/post.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from '../../comments/models/comment.entity';
 
 @Entity()
@@ -30,6 +24,9 @@ export class User {
 
   @Column({ default: true })
   isActive?: boolean;
+
+  @Column({ default: false })
+  isAdmin?: boolean;
 
   @OneToMany(() => Post, (posts) => posts.user)
   posts: Post[];

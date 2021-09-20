@@ -11,11 +11,11 @@ export class AuthenticateUserResponseDto {
   @Expose()
   phone: string;
 
-  @Expose()
-  linkingCode: string;
-
   @Exclude()
   password: string;
+
+  @Expose()
+  isAdmin: boolean;
 
   @Expose()
   token: string;

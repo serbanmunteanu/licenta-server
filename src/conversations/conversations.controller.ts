@@ -10,7 +10,6 @@ import { User } from 'src/users/models/user.entity';
 import { ConversationService } from './conversations.service';
 import { User as UserDecorator } from '../common/decorators/user.decorator';
 import { ConversationDto } from './dtos/conversation.dto';
-import { ConversationMessageEntity } from './models/conversation-message.entity';
 import { ConversationMessageDto } from './dtos/conversation-message.dto';
 
 @Controller('/conversations')
